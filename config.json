@@ -1,0 +1,19 @@
+{
+    "poly": "s1s2s3",
+    "s2k": 10,
+    "s3k": 5,
+
+    "model_name": "llama3",
+    "model_dir": "Llama3-8B-Instruct",
+
+    "tracker_dir": "log",
+    "tracker_file": "tracker.json",
+    "context_dir": "context",
+    "context_file": "context.json",
+
+    "ontology_path": "data/poly_onto.ttl",
+    "kg_path": "data/poly_kg.json",
+    "kg_embed_path": "data/poly_kg_embed.npy",
+    "rag_path": "data/poly_corpus.json",
+    "rag_embed_path": "data/poly_corpus_embed.npy"
+}
