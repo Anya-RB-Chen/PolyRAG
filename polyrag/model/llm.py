@@ -1,5 +1,5 @@
 import torch
-from transformers import AutoTokenizer, AutoModel, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM
 
 class Llama3:
     def __init__(self,model_dir) -> None:

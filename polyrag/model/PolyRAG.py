@@ -95,9 +95,12 @@ if __name__ == "__main__":
     poly = PolyRAG(config)
 
     
-    if config['model_name'] == "llama3":
-        model = Llama3(config['model_dir'])
-        tracker = poly.run_llm(model, q, print=True)
-        context = poly.get_current_context()
-    else:
-        raise ValueError("Model not supported")
+    # if config['model_name'] == "llama3":
+    #     model = Llama3(config['model_dir'])
+    #     tracker = poly.run_llm(model, q, print=True)
+    #     context = poly.get_current_context()
+    # else:
+    #     raise ValueError("Model not supported")
+
+    s1_p = poly._s1_sparql_prompt(q)
+    print(s1_p)
