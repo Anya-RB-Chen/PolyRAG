@@ -49,25 +49,33 @@ class PolyRAG:
     def run_llm(self, model, question, print=False):
 
         self.llm = model
-        s1_prompt = self._s1_sparql_prompt(question)
-        s1_output, s1_query = self.llm.generate(s1_prompt)
-        s1_result = self._s1_query_result(s1_output)
-        if print:
-            print("====== S1 SECTION ======") 
-            print("S1 Prompt:", s1_query)
-            print("S1 Output:", s1_output)
+        s1_result = None
+        s2_result = None
+        s3_context = None
+        self.kg_context = None
 
-        s2_prompt = self._s2_kg_agreement_prompt(question)
-        s2_output, s2_query = self.llm.generate(s2_prompt)
-        s2_result = self._s2_agreement_result(s2_output)
-        if print:
-            print("====== S2 SECTION ======") 
-            print("S2 Prompt:", s2_query)
-            print("S2 Context:", self.kg_context)
-            print("S2 Output:", s2_output)
-            print("S2 Agreement:", s2_result)
+        if "s1" in self.poly:
+            s1_prompt = self._s1_sparql_prompt(question)
+            s1_output, s1_query = self.llm.generate(s1_prompt)
+            s1_result = self._s1_query_result(s1_output)
+            if print:
+                print("====== S1 SECTION ======") 
+                print("S1 Prompt:", s1_query)
+                print("S1 Output:", s1_output)
 
-        s3_context = self._s3_rag_context(question)
+        if "s2" in self.poly:
+            s2_prompt = self._s2_kg_agreement_prompt(question)
+            s2_output, s2_query = self.llm.generate(s2_prompt)
+            s2_result = self._s2_agreement_result(s2_output)
+            if print:
+                print("====== S2 SECTION ======") 
+                print("S2 Prompt:", s2_query)
+                print("S2 Context:", self.kg_context)
+                print("S2 Output:", s2_output)
+                print("S2 Agreement:", s2_result)
+
+        if "s3" in self.poly:
+            s3_context = self._s3_rag_context(question)
 
         self.tracker.update_tracker(question, s1_result, self.kg_context, s2_result, s3_context, save=True)
 
@@ -95,12 +103,9 @@ if __name__ == "__main__":
     poly = PolyRAG(config)
 
     
-    # if config['model_name'] == "llama3":
-    #     model = Llama3(config['model_dir'])
-    #     tracker = poly.run_llm(model, q, print=True)
-    #     context = poly.get_current_context()
-    # else:
-    #     raise ValueError("Model not supported")
-
-    s1_p = poly._s1_sparql_prompt(q)
-    print(s1_p)
+    if config['model_name'] == "llama3":
+        model = Llama3(config['model_dir'])
+        tracker = poly.run_llm(model, q, print=True)
+        context = poly.get_current_context()
+    else:
+        raise ValueError("Model not supported")
